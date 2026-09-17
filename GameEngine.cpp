@@ -1,5 +1,4 @@
 ﻿#include <Windows.h>
-#include <d3d11.h>
 
 
 LRESULT CALLBACK WindowProc(
@@ -10,12 +9,17 @@ LRESULT CALLBACK WindowProc(
 {
 	switch (message)
 	{
+	case WM_CLOSE:
+		DestroyWindow(hwnd);
+
+		return 0;
+
 	case WM_DESTROY:
 		PostQuitMessage(0);
 
 		return 0;
 	}
-	return DefWindowProc(
+	return DefWindowProcA(
 		hwnd,
 		message,
 		wParam,
@@ -37,11 +41,11 @@ int WINAPI WinMain(
 	wc.lpszClassName = CLASS_NAME;
 
 	wc.hbrBackground =
-		CreateSolidBrush(RGB(50, 100, 200));
+		CreateSolidBrush(RGB(0, 255, 0));
 
 	RegisterClassA(&wc);
 
-	int width = 1200;
+	int width = 1300;
 	int height = 800;
 
 	HWND hwnd = CreateWindowExA(
@@ -73,7 +77,7 @@ int WINAPI WinMain(
 
 	MSG msg = {};
 
-	while (GetMessage(&msg, nullptr, 0, 0))
+	while (GetMessage(&msg, nullptr, 0, 0) > 0)
 	{
 		TranslateMessage(&msg);
 		DispatchMessageA(&msg);
